@@ -8,6 +8,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
+import { useMutation } from '@tanstack/react-query'
+import { registerRestaurant } from '@/services/register-restaurant'
 
 const signUpFormSchema = z.object({
   restaurantName: z.string(),
@@ -29,14 +31,23 @@ export function SignUpForm() {
     resolver: zodResolver(signUpFormSchema),
   })
 
+  const { mutateAsync: registerRestaurantFn } = useMutation({
+    mutationFn: registerRestaurant,
+  })
+
   async function handleSignUp(data: SignUpForm) {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      await registerRestaurantFn({
+        restaurantName: data.restaurantName,
+        managerName: data.managerName,
+        email: data.email,
+        phone: data.phone,
+      })
 
       toast.success('Restaurante cadastrado com sucesso.', {
         action: {
           label: 'Login',
-          onClick: () => router.push('/sign-in'),
+          onClick: () => router.push(`/sign-in?email=${data.email}`),
         },
       })
     } catch {

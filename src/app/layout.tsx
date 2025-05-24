@@ -21,8 +21,7 @@ export default function RootLayout({
       <body className="antialiased">
         <Providers>
           <div className="min-h-screen">{children}</div>
-          </Providers>
-       
+        </Providers>
       </body>
     </html>
   )

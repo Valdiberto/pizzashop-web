@@ -8,7 +8,8 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import colors from 'tailwindcss/colors'
-
+import { DateRange } from 'react-day-picker'
+import { subDays } from 'date-fns'
 import {
   ResponsiveContainer,
   LineChart,
@@ -17,6 +18,10 @@ import {
   CartesianGrid,
   Line,
 } from 'recharts'
+import { useState } from 'react'
+import { getDailyRevenueInPeriod } from '@/services/get-daily-revenue-in-period'
+import { useQuery } from '@tanstack/react-query'
+import { Label } from '@/components/ui/label'
 
 const data = [
   { date: '10/12', revenue: 1200 },
@@ -29,6 +34,20 @@ const data = [
 ]
 
 export function RevenueChart() {
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: subDays(new Date(), 7),
+    to: new Date(),
+  })
+
+  const { data: dailyRevenueInPeriod } = useQuery({
+    queryKey: ['metrics', 'daily-revenue-in-period', dateRange],
+    queryFn: () =>
+      getDailyRevenueInPeriod({
+        from: dateRange?.from,
+        to: dateRange?.to,
+      }),
+  })
+
   return (
     <Card className="col-span-6">
       <CardHeader className="flex-row items-center justify-between pb-8">
@@ -37,6 +56,9 @@ export function RevenueChart() {
             Receita no periodo
           </CardTitle>
           <CardDescription>Receita diária no periodo</CardDescription>
+        </div>
+        <div className="flex items-center gap-3">
+          <Label>Período</Label>
         </div>
       </CardHeader>
       <CardContent>

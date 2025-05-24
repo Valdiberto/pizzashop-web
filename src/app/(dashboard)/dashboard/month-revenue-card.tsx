@@ -1,7 +1,17 @@
+'use client'
+
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { getMonthRevenue } from '@/services/get-month-revenue'
+import { useQuery } from '@tanstack/react-query'
 import { DollarSign } from 'lucide-react'
+import { MetricCardSkeleton } from './metric-card-skeleton'
 
 export function MonthRevenueCard() {
+  const { data: monthRevenue } = useQuery({
+    queryFn: getMonthRevenue,
+    queryKey: ['metrics', 'month-canceled-orders-amount'],
+  })
+
   return (
     <Card>
       <CardHeader className="flex items-center justify-between space-y-0 pb-2">
@@ -11,11 +21,35 @@ export function MonthRevenueCard() {
         <DollarSign className="text-muted-foreground h-4 w-4" />
       </CardHeader>
       <CardContent className="space-y-1">
-        <span className="text-2xl font-bold tracking-tight">R$ 1245,49</span>
-        <p className="text-muted-foreground text-xs">
-          <span className="text-emerald-500 dark:text-emerald-400">+2%</span> em
-          relação ao mês passado
-        </p>
+        {monthRevenue ? (
+          <>
+            <span className="text-2xl font-bold tracking-tight">
+              {(monthRevenue.receipt / 100).toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+              })}
+            </span>
+            <p className="text-muted-foreground text-xs">
+              {monthRevenue.diffFromLastMonth >= 0 ? (
+                <>
+                  <span className="text-emerald-500 dark:text-emerald-400">
+                    +{monthRevenue.diffFromLastMonth}%
+                  </span>{' '}
+                  em relação ao mês passado
+                </>
+              ) : (
+                <>
+                  <span className="text-rose-500 dark:text-rose-400">
+                    {monthRevenue.diffFromLastMonth}%
+                  </span>{' '}
+                  em relação ao mês passado
+                </>
+              )}
+            </p>
+          </>
+        ) : (
+          <MetricCardSkeleton />
+        )}
       </CardContent>
     </Card>
   )

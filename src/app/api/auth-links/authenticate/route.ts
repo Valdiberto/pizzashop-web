@@ -1,46 +1,80 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { z } from 'zod'
+import { NextResponse, NextRequest } from 'next/server'
 import { db } from '@/db/connection'
-import { authLinks, users } from '@/db/schema'
+import { authLinks } from '@/db/schema'
 import { eq } from 'drizzle-orm'
-import { signJwt } from '@/lib/jwt'
+import dayjs from 'dayjs'
+import jwt from 'jsonwebtoken'
 
-const bodySchema = z.object({
-  code: z.string().uuid(),
-})
+export async function GET(req: NextRequest) {
+  try {
+    // 1. Extrai os parâmetros da URL
+    const { searchParams } = new URL(req.url)
+    const code = searchParams.get('code')
+    const redirect = searchParams.get('redirect') || '/dashboard'
 
-export async function POST(req: NextRequest) {
-  const body = await req.json()
-  const { code } = bodySchema.parse(body)
+    if (!code) {
+      throw new NextResponse('Código não fornecido', { status: 400 })
+    }
 
-  // Busca o authLink pelo código
-  const [authLink] = await db
-    .select()
-    .from(authLinks)
-    .where(eq(authLinks.code, code))
+    // 2. Busca o authLink no banco de dados
+    const authLinkFromCode = await db.query.authLinks.findFirst({
+      where: (fields, { eq }) => eq(fields.code, code),
+    })
 
-  if (!authLink) {
+    if (!authLinkFromCode) {
+      return NextResponse.json(
+        { error: 'Link de autenticação inválido' },
+        { status: 401 },
+      )
+    }
+
+    // 3. Verifica se o link expirou (7 dias)
+    if (dayjs().diff(authLinkFromCode.createdAt, 'days') > 7) {
+      return NextResponse.json(
+        { error: 'Link de autenticação expirado' },
+        { status: 401 },
+      )
+    }
+
+    // 4. Busca o restaurante gerenciado pelo usuário
+    const managedRestaurant = await db.query.restaurants.findFirst({
+      where: (fields, { eq }) => eq(fields.managerId, authLinkFromCode.userId),
+    })
+
+    // 5. Gera token JWT
+    const token = jwt.sign(
+      {
+        sub: authLinkFromCode.userId,
+        restaurantId: managedRestaurant?.id,
+      },
+      process.env.JWT_SECRET_KEY!,
+      { expiresIn: '7d' },
+    )
+
+    // 6. Define cookie (agora como JWT válido)
+    const response = NextResponse.redirect(
+      new URL(redirect, req.nextUrl.origin),
+    )
+
+    response.cookies.set({
+      name: 'session',
+      value: token,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 60 * 60 * 24 * 7,
+      path: '/',
+      sameSite: 'lax',
+    })
+
+    /// 7. Limpeza
+    await db.delete(authLinks).where(eq(authLinks.code, code))
+
+    return response
+  } catch (error) {
+    console.error('Erro na autenticação por link:', error)
     return NextResponse.json(
-      { message: 'Link de autenticação inválido.' },
-      { status: 400 },
+      { error: 'Falha na autenticação' },
+      { status: 500 },
     )
   }
-
-  // Busca o usuário associado
-  const [user] = await db
-    .select()
-    .from(users)
-    .where(eq(users.id, authLink.userId))
-
-  if (!user) {
-    return NextResponse.json(
-      { message: 'Usuário não encontrado.' },
-      { status: 404 },
-    )
-  }
-
-  // Gera o JWT
-  const token = signJwt({ sub: user.id })
-
-  return NextResponse.json({ token })
 }
