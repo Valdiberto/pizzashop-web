@@ -1,5 +1,3 @@
-/* eslint-disable drizzle/enforce-delete-with-where */
-
 import {
   authLinks,
   evaluations,

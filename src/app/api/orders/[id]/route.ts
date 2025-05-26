@@ -8,11 +8,13 @@ import {
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { id: orderId } = await params
-    const restaurantId = await getManagedRestaurantId()
+    const [restaurantId, { id: orderId }] = await Promise.all([
+      getManagedRestaurantId(),
+      context.params,
+    ])
 
     const order = await db.query.orders.findFirst({
       columns: {

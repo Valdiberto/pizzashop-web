@@ -2,6 +2,8 @@ import { Metadata } from 'next'
 import { SignInForm } from './SignInForm'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { Suspense } from 'react'
+import { OrdersTableSkeleton } from '@/app/(dashboard)/orders/_components/orders-table-skeleton'
 
 export const metadata: Metadata = {
   title: 'Sign In',
@@ -22,7 +24,9 @@ export default function SignIn() {
             Acompanhe suas vendas pelo painel do parceiro!
           </p>
         </div>
-        <SignInForm />
+        <Suspense fallback={<OrdersTableSkeleton />}>
+          <SignInForm />
+        </Suspense>
       </div>
     </div>
   )

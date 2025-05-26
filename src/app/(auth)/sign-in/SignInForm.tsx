@@ -10,6 +10,7 @@ import { z } from 'zod'
 import { useMutation } from '@tanstack/react-query'
 import { signIn } from '@/services/sign-in'
 import { useSearchParams } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 const signInFormSchema = z.object({
   email: z.string().email(),
@@ -25,6 +26,7 @@ export function SignInForm() {
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<SignInForm>({
+    resolver: zodResolver(signInFormSchema),
     defaultValues: {
       email: searchParams.get('email') ?? '',
     },

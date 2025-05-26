@@ -6,11 +6,13 @@ import { orders } from '@/db/schema'
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { id: orderId } = await params
-    const restaurantId = await getManagedRestaurantId()
+    const [restaurantId, { id: orderId }] = await Promise.all([
+      getManagedRestaurantId(),
+      context.params,
+    ])
 
     if (!restaurantId) {
       return NextResponse.json(

@@ -1,20 +1,18 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/db/connection'
 import { getManagedRestaurantId, UnauthorizedError } from '@/lib/auth'
 import { eq } from 'drizzle-orm'
 import { orders } from '@/db/schema'
 
-interface RouteParams {
-  params: { id: string }
-}
-
 export async function PATCH(
-  request: Request,
-  { params }: RouteParams,
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { id: orderId } = params
-    const restaurantId = await getManagedRestaurantId()
+    const [restaurantId, { id: orderId }] = await Promise.all([
+      getManagedRestaurantId(),
+      context.params,
+    ])
 
     // Verifica se o pedido existe e pertence ao restaurante
     const order = await db.query.orders.findFirst({
