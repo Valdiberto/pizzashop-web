@@ -9,7 +9,7 @@ export async function PATCH(
   { params }: { params: { id: string } },
 ) {
   try {
-    const { id: orderId } = await params
+    const { id: orderId } = params as { id: string }
     const restaurantId = await getManagedRestaurantId()
 
     // Verifica se o pedido existe e pertence ao restaurante
