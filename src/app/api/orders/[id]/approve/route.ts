@@ -4,12 +4,16 @@ import { getManagedRestaurantId, UnauthorizedError } from '@/lib/auth'
 import { eq } from 'drizzle-orm'
 import { orders } from '@/db/schema'
 
+interface RouteParams {
+  params: { id: string }
+}
+
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: RouteParams,
 ) {
   try {
-    const { id: orderId } = params as { id: string }
+    const { id: orderId } = params
     const restaurantId = await getManagedRestaurantId()
 
     // Verifica se o pedido existe e pertence ao restaurante
