@@ -9,6 +9,9 @@ export const metadata: Metadata = {
     template: '%s | Pizza Shop',
     default: 'Pizza Shop',
   },
+  icons: {
+    icon: '/favicon.png',
+  },
 }
 
 export default function RootLayout({

@@ -23,7 +23,7 @@ export function Pagination({
 
   return (
     <div className="flex items-center justify-between">
-      <span className="text-muted-foreground text-sm">
+      <span className="text-muted-foreground text-xs lg:text-sm">
         Toal de {totalCount} item(s)
       </span>
 

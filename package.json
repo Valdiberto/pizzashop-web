@@ -9,9 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "tsx src/db/seed.ts",
-    "db:generate": "drizzle-kit generate:pg",
-    "db:migrate": "drizzle-kit migrate:pg",
-    "db:push": "drizzle-kit push:pg"
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.3.2",

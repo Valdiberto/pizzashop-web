@@ -14,6 +14,7 @@ import { cancelOrder } from '@/services/cancel-order'
 import { approveOrder } from '@/services/approve-order'
 import { dispatchOrder } from '@/services/dispatch-order'
 import { deliverOrder } from '@/services/deliver-order'
+import { toast } from 'sonner'
 
 export interface OrderTableRowProps {
   order: {
@@ -22,6 +23,21 @@ export interface OrderTableRowProps {
     status: 'pending' | 'canceled' | 'processing' | 'delivering' | 'delivered'
     customerName: string
     total: number
+  }
+}
+
+export function getToastMessageByStatus(status: OrderStatus) {
+  switch (status) {
+    case 'delivered':
+      return toast.success('O pedido foi entregue ao cliente')
+    case 'processing':
+      return toast.success('O pedido foi aprovado e está sendo preparado.')
+    case 'delivering':
+      return toast.success('O pedido saiu para entrega.')
+    case 'canceled':
+      return toast.success('O pedido foi cancelado com sucesso.')
+    default:
+      return toast.success('O pedido foi atualizado.')
   }
 }
 
@@ -49,6 +65,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
         }),
       })
     })
+    getToastMessageByStatus(status)
   }
 
   const { mutateAsync: cancelOrderFn, isPending: isCancelingOrder } =

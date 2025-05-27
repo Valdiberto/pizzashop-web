@@ -15,14 +15,14 @@ export default function DashBoard() {
     <div className="flex flex-col gap-4">
       <div className="text-3xl font-bold tracking-tight">Dashboard</div>
 
-      <div className="grid grid-cols-4 gap-4">
+      <div className="flex flex-col gap-4 lg:grid lg:grid-cols-4">
         <MonthRevenueCard />
         <MonthOrdersAmountCard />
         <DaysOrdersAmountCard />
         <MonthCanceledOrdersAmountCard />
       </div>
 
-      <div className="grid grid-cols-9 gap-4">
+      <div className="flex flex-col gap-4 lg:grid lg:grid-cols-9">
         <RevenueChart />
         <PopularProductsChart />
       </div>

@@ -11,11 +11,15 @@ export const metadata: Metadata = {
 
 export default function SignIn() {
   return (
-    <div className="p-8">
-      <Button variant={'ghost'} asChild className="absolute top-8 right-8">
+    <div className="p-4 lg:p-8">
+      <Button
+        variant={'ghost'}
+        asChild
+        className="mb-10 flex justify-center lg:absolute lg:top-8 lg:right-8"
+      >
         <Link href="/sign-up"> Novo estabelecimento</Link>
       </Button>
-      <div className="flex w-[350px] flex-col justify-center gap-6">
+      <div className="flex flex-col justify-center gap-6 lg:w-[350px]">
         <div className="flex flex-col gap-2 text-center">
           <h1 className="text-2xl font-semibold tracking-tight">
             Acessar painel

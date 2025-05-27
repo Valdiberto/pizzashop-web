@@ -8,7 +8,7 @@ import { AccountMenu } from './account-menu'
 export function Header() {
   return (
     <div className="border-b">
-      <div className="flex h-16 items-center gap-6 px-6">
+      <div className="flex h-16 items-center gap-2 px-3 lg:gap-6 lg:px-6">
         <Pizza className="h-6 w-6" />
 
         <Separator orientation="vertical" className="h-6" />
@@ -24,7 +24,7 @@ export function Header() {
           </NavLink>
         </nav>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="flex items-center gap-2 lg:ml-auto">
           <ThemeToggle />
           <AccountMenu />
         </div>

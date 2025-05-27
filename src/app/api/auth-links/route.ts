@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { db } from '@/db/connection' // ajuste conforme sua conexão Drizzle
+import { db } from '@/db/connection'
 import { authLinks, users } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 import { createId } from '@paralleldrive/cuid2'
-import { resend } from '@/lib/resend' // configure o Resend conforme sua necessidade
+import { resend } from '@/lib/resend'
 
 const bodySchema = z.object({
   email: z.string().email(),
@@ -42,13 +42,22 @@ export async function POST(req: NextRequest) {
     authLink.searchParams.set('code', code)
     authLink.searchParams.set('redirect', process.env.AUTH_REDIRECT_URL || '/')
 
+    const emailHtml = `
+    <div style="font-family: sans-serif;">
+      <h2>Seu link mágico chegou! 🔑</h2>
+      <p>Clique no botão abaixo para acessar sua conta:</p>
+      <a href="${authLink.toString()}" style="background-color: #ef4444; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Entrar no Pizza Shop</a>
+      <p>Se você não solicitou este link, ignore este email.</p>
+    </div>
+    `
+
     // Envia o email com o link mágico
     if (process.env.NODE_ENV === 'production') {
       await resend.emails.send({
-        from: 'Pizza Shop <noreply@pizzashop.com>',
+        from: 'Pizza Shop <onboarding@resend.dev>',
         to: email,
         subject: 'Seu link mágico de acesso',
-        html: `<p>Clique no link abaixo para acessar:</p><a href="${authLink.toString()}">Acessar minha conta</a>`,
+        html: emailHtml,
       })
     }
 
