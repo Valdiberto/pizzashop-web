@@ -67,6 +67,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'Link mágico enviado com sucesso.',
+      devAuthLink: authLink.toString(),
     })
   } catch (error) {
     console.error('Erro no endpoint /api/auth-links:', error)

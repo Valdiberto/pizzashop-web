@@ -4,6 +4,13 @@ export interface SignInBody {
   email: string
 }
 
-export async function signIn({ email }: SignInBody) {
-  await api.post('/auth-links', { email })
+export interface SignInResponse {
+  success: boolean
+  message: string
+  devAuthLink?: string
+}
+
+export async function signIn({ email }: SignInBody): Promise<SignInResponse> {
+  const response = await api.post('/auth-links', { email })
+  return response.data as SignInResponse
 }

@@ -38,13 +38,20 @@ export function SignInForm() {
 
   async function handleSignIn(data: SignInForm) {
     try {
-      await authenticate({ email: data.email })
-      toast.success('Enviamos um link de autenticação para seu e-mail.', {
-        action: {
-          label: 'Reenviar',
-          onClick: () => handleSignIn(data),
+      const response = await authenticate({ email: data.email })
+      // await authenticate({ email: data.email }) //toast sem link para modo padrao com envio de email
+      // toast.success('Enviamos um link de autenticação para seu e-mail.', {
+      toast.success(
+        <a className="underline" href={response.devAuthLink}>
+          Clique aqui para acessar
+        </a>,
+        {
+          action: {
+            label: 'Reenviar',
+            onClick: () => handleSignIn(data),
+          },
         },
-      })
+      )
     } catch {
       toast.error('Credenciais inválidas.')
     }
