@@ -1,8 +1,3 @@
-rode o docker no arquivo docker-compose.yml
-
-npm run db:migrate
-npm run seed
-
 # 🍕 Pizza Shop
 
 Uma aplicação moderna e responsiva para gestão de pizzarias, construída com Next.js, TypeScript, Tailwind CSS e outras tecnologias modernas. Gerencie pedidos, cardápio, avaliações e métricas de forma eficiente e intuitiva.
