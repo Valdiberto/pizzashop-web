@@ -4,7 +4,7 @@ Uma aplicação moderna e responsiva para gestão de pizzarias, construída com 
 
 ## 🚀 Demonstração
 
-Confira a versão ao vivo: https://pizzashop-web.vercel.app
+Confira a versão ao vivo: https://pizzashop-web-sable.vercel.app/
 
 ## ✨ Funcionalidades
 
