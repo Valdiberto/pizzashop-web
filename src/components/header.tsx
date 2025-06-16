@@ -22,6 +22,10 @@ export function Header() {
             <UtensilsCrossed className="h-4 w-4" />
             Pedidos
           </NavLink>
+          <NavLink href="/products">
+            <UtensilsCrossed className="h-4 w-4" />
+            Produtos
+          </NavLink>
         </nav>
 
         <div className="flex items-center gap-2 lg:ml-auto">
