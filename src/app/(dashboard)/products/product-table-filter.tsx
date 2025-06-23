@@ -47,10 +47,8 @@ export function ProductTableFilters() {
       params.delete('name')
     }
 
-    // Resetar para a primeira página
     params.set('page', '1')
 
-    // Atualiza a URL
     router.push(`${pathname}?${params.toString()}`)
   }
 
@@ -71,12 +69,12 @@ export function ProductTableFilters() {
     >
       <span className="text-sm font-semibold">Filtros:</span>
       <Input
-        placeholder="Id do pedido"
+        placeholder="Id do produto"
         className="h-8 w-auto"
         {...register('productId')}
       />
       <Input
-        placeholder="Nome do cliente"
+        placeholder="Nome do produto"
         className="h-8 w-[320px]"
         {...register('name')}
       />

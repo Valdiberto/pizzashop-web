@@ -18,6 +18,8 @@ import { NewProduct } from './new-product'
 import { getProducts } from '@/services/get-products'
 import { ProductTableRow } from './product-table-row'
 import { ProductTableFilters } from './product-table-filter'
+import { CirclePlusIcon } from 'lucide-react'
+import { OrderTableSkeleton } from '../orders/order-table-skeleton'
 
 export function MyProducts() {
   const [isNewProductOpen, setIsNewProductOpen] = useState(false)
@@ -33,7 +35,7 @@ export function MyProducts() {
     .transform((page) => page - 1)
     .parse(searchParams.get('page') ?? '1')
 
-  const { data: result } = useQuery({
+  const { data: result, isLoading: isLoadingProduct } = useQuery({
     queryKey: ['products', pageIndex, productId, name],
     queryFn: () =>
       getProducts({
@@ -51,11 +53,12 @@ export function MyProducts() {
   }
   return (
     <div className="space-y-2.5">
-      <div className="flex justify-between">
+      <div className="flex flex-col gap-2 lg:flex-row lg:justify-between">
         <ProductTableFilters />
         <Dialog open={isNewProductOpen} onOpenChange={setIsNewProductOpen}>
           <DialogTrigger asChild>
             <Button type="submit" variant="secondary" size="xs">
+              <CirclePlusIcon className="mr-2 h-4 w-4" />
               Adicionar produto
             </Button>
           </DialogTrigger>
@@ -77,6 +80,7 @@ export function MyProducts() {
             </TableRow>
           </TableHeader>
           <TableBody>
+            {isLoadingProduct && <OrderTableSkeleton />}
             {result &&
               result.products.map((product) => {
                 return (

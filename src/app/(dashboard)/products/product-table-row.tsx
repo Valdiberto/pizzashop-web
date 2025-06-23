@@ -8,6 +8,7 @@ import { ptBR } from 'date-fns/locale'
 import { Search } from 'lucide-react'
 import { useState } from 'react'
 import { ProductDetails } from './product-details'
+import { ProductEditDialog } from './product-edit-dialog'
 
 export interface ProductTableRowProps {
   product: {
@@ -21,6 +22,8 @@ export interface ProductTableRowProps {
 
 export function ProductTableRow({ product }: ProductTableRowProps) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
+  const [isEditOpen, setIsEditOpen] = useState(false)
+
   return (
     <TableRow>
       <TableCell>
@@ -47,6 +50,16 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
       <TableCell>
         {' '}
         R$ {(product.priceInCents / 100).toFixed(2).replace('.', ',')}
+      </TableCell>
+      <TableCell>
+        <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+          <DialogTrigger asChild>
+            <Button variant="outline" size="xs">
+              Editar
+            </Button>
+          </DialogTrigger>
+          <ProductEditDialog productId={product.productId} open={isEditOpen} />
+        </Dialog>
       </TableCell>
     </TableRow>
   )

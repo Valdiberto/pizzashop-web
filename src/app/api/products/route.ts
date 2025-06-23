@@ -96,7 +96,7 @@ export async function POST(req: Request) {
         restaurantId,
       })
       .returning()
-    console.log('Produto criado:', newProduct)
+
     return NextResponse.json({ product: newProduct }, { status: 201 })
   } catch (error) {
     console.error('Error creating product:', error)

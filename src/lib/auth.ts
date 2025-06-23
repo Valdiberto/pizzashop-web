@@ -27,7 +27,6 @@ export async function getCurrentUser(): Promise<JwtPayload> {
   const token = cookieStore.get('session')?.value
 
   // Debug: verifique o token recebido
-  console.log('Token recebido:', token)
 
   if (!token) {
     throw new UnauthorizedError()

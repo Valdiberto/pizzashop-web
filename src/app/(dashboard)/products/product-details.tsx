@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/table'
 import { getProductDetails } from '@/services/get-product-details'
 import { useQuery } from '@tanstack/react-query'
+import { ProductDetailsSkeleton } from './product-details-skeleton'
 
 export interface ProductDetailsProps {
   open: boolean
@@ -72,7 +73,7 @@ export function ProductDetails({ open, productId }: ProductDetailsProps) {
           </Table>
         </div>
       ) : (
-        <div>skeleton details</div>
+        <ProductDetailsSkeleton />
       )}
     </DialogContent>
   )
