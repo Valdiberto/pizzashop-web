@@ -15,9 +15,13 @@ Gestão de cardápio e avaliações:  gerencie o cardápio adicionando ou editan
 Dashboard com métricas e gráficos interativos: Veja os produtos com mais receita no mes ou dia e cancelamentos do mês, e gráficos para produtos populaores
 
 Tecnologias Utilizadas
+
 Reactjs: Linguagem de progamação principal do projeto.
+
 Tailwind Css: Biblioteca usada para interface gráfica
+
 Next.js: back-end e front-end no mesmo projeto
+
 PostgreSQL: database usado no projeto
 
 link github: https://github.com/Valdiberto/pizzashop-web
