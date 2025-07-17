@@ -3,6 +3,7 @@
 Esse sistema foi desenvolvido para fazer o gerenciamento de pizzarias, com o objetivo de fornecer uma plataforma simples de gerenciar pedidos, cardápio, avaliações e métricas de forma eficiente e intuitiva
 
 Funcionalidades:
+
 Autenticação via Magic Link (sem senha): Envia um email com link para acesso
 
 Cadastro e login de estabelecimentos: Permite o cadastro de novos estabelecimentos e login
