@@ -1,6 +1,21 @@
 # 🍕 Pizza Shop
 
-Uma aplicação moderna e responsiva para gestão de pizzarias, construída com Next.js, TypeScript, Tailwind CSS e outras tecnologias modernas. Gerencie pedidos, cardápio, avaliações e métricas de forma eficiente e intuitiva.
+Esse sistema foi desenvolvido para fazer o gerenciamento de pizzarias, com o objetivo de fornecer uma plataforma simples de gerenciar pedidos, cardápio, avaliações e métricas de forma eficiente e intuitiva
+
+Funcionalidades:
+Autenticação via Magic Link (sem senha): Envia um email com link para acesso
+Cadastro e login de estabelecimentos: Permite o cadastro de novos estabelecimentos e login
+Gerenciamento de pedidos: aprove, cancele ou altere o status de cada pedido
+Gestão de cardápio e avaliações:  gerencie o cardápio adicionando ou editando, e consiga ver avaliações
+Dashboard com métricas e gráficos interativos: Veja os produtos com mais receita no mes ou dia e cancelamentos do mês, e gráficos para produtos populaores
+
+Tecnologias Utilizadas
+Reactjs: Linguagem de progamação principal do projeto.
+Tailwind Css: Biblioteca usada para interface gráfica
+Next.js: back-end e front-end no mesmo projeto
+PostgreSQL: database usado no projeto
+
+link github: https://github.com/Valdiberto/pizzashop-web
 
 ## 🚀 Demonstração
 
@@ -12,13 +27,12 @@ Uma aplicação moderna e responsiva para gestão de pizzarias, construída com 
 
 ✅ Cadastro e login de estabelecimentos e clientes
 
-✅ Criação e gerenciamento de pedidos
+✅ Gerenciamento de pedidos
 
 ✅ Gestão de cardápio e avaliações
 
 ✅ Dashboard com métricas e gráficos interativos
 
-✅ Notificações visuais para novos pedidos
 
 ✅ Layout totalmente responsivo com Tailwind CSS
 
